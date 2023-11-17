@@ -321,8 +321,7 @@ RegisterNetEvent("glow_blackmarket_sv:attemptLoot", function(index)
     end
 
     if pendingOrders[index].isLooted then
-        TriggerClientEvent("inventory:client:SetCurrentStash", src, pendingOrders[index].stashId)
-        exports["qb-inventory"]:OpenInventory("stash", pendingOrders[index].stashId, nil, src)
+	exports['core_inventory']:openInventory(src, 'stash-'..pendingOrders[index].stashId, 'stash', nil, nil, true, nil)
         return
     end
 
@@ -353,12 +352,18 @@ RegisterNetEvent("glow_blackmarket_sv:finishLooting", function(index)
         slot += 1
     end
 
+    local inventoryName = 'stash-' .. stashId
+    exports['core_inventory']:clearInventory(inventoryName)
+    exports['core_inventory']:openInventory(src, inventoryName, 'stash', nil, nil, false, nil)
+    for kk, vv in pairs(orderItems) do
+	exports['core_inventory']:addItem(inventoryName, vv.name, tonumber(vv.amount), vv.info, 'stash')
+    end
+
     saveOrderStash(stashId, orderItems, function(id)
-        if id then
-            TriggerClientEvent("inventory:client:SetCurrentStash", src, stashId)
-            exports["qb-inventory"]:OpenInventory("stash", stashId, nil, src)
-        end
-    end)
+	if id then
+   	   exports['core_inventory']:openInventory(src, inventoryName, 'stash', nil, nil, true, nil)
+  	end
+     end)
 
     pendingOrders[index].lootInProgress = false
     pendingOrders[index].isLooted = true
