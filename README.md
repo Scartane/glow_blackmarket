@@ -1,4 +1,4 @@
-<h1 align="center">Black Market Delivery Script for FiveM QBCore</h1>
+<h1 align="center">Black Market Delivery Script for FiveM QBCore [C8RE INVENTORY COMPATIBLE]</h1>
 
 ## Description
 A black market UI created in React for FiveM QBCore Framework. This script allows players view items on the market, add them to their cart, and place orders. The ordered items will then be delivered to a random location in the Config where players can pick it up.
